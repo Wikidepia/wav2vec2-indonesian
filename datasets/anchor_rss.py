@@ -4,7 +4,7 @@ import re
 with open("filtered-urls.txt") as f:
     urls = f.readlines()
 
-fopen = open("rss.txt", "a+")
+fopen = open("anchor-rss.txt", "a+")
 href_regex = r"href=\"(.*?)\""
 for url in urls:
     r = requests.get("https://" + url.strip())
