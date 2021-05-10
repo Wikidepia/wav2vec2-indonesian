@@ -8,7 +8,7 @@ for e in open("anchor-rss.txt"):
         if feed.feed["language"] != "in": # Indonesian = in
             continue
         for entry in entries:
-            o.write(entry["links"][1]["href"])
+            o.write(entry["links"][1]["href"] + '\n')
         print(e.strip())
     except:
         pass
