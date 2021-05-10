@@ -1,14 +1,31 @@
 import feedparser
+import json
+import html2text
 
-o = open("anchor-mp3.txt", "a+")
-for e in open("anchor-rss.txt"):
+fout = open("anchor-mp3.jsonl", "a+")
+for url in open("anchor-rss.txt"):
     try:
-        feed = feedparser.parse(e.strip())
+        feed = feedparser.parse(url.strip())
         entries = feed.entries
-        if feed.feed["language"] != "in": # Indonesian = in
+        if feed.feed["language"] != "in":  # Indonesian = in
             continue
+        data = {
+            "title": feed.feed["title"],
+            "description": feed.feed["description"],
+            "episodes": [],
+        }
         for entry in entries:
-            o.write(entry["links"][1]["href"] + '\n')
-        print(e.strip())
+            data["episodes"].append(
+                (
+                    {
+                        "title": entry["title"],
+                        "description": html2text.html2text(entry["description"]),
+                        "link": entry["link"],
+                        "audio_url": entry["links"][1]["href"],
+                    }
+                )
+            )
+        fout.write(json.dumps(data) + "\n")
+        print(url.strip())
     except:
         pass
