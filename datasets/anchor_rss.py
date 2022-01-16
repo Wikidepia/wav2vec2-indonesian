@@ -16,4 +16,3 @@ for url in urls:
         print(rss.group(1))
     except Exception as e:
         print(e)
-        pass
